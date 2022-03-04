@@ -9,9 +9,16 @@ export const styles = StyleSheet.create({
   box: {
     height: 55,
     width: 55,
-    borderColor: colors.BLACK,
+    borderColor: colors.ACCENT,
     borderWidth: 3,
     margin: 2,
     borderRadius: 5,
+  },
+  unavailableBox: {
+    height: 55,
+    width: 55,
+    margin: 2,
+    borderRadius: 5,
+    backgroundColor: colors.GREY,
   },
 });

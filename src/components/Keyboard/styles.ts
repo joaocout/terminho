@@ -4,8 +4,8 @@ import { colors } from '../../shared/colors';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
     alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   row: {
     flexDirection: 'row',
