@@ -9,15 +9,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 5,
     backgroundColor: colors.WHITE,
   },
-
   title: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: colors.BLACK,
-  },
-
-  text: {
-    fontSize: 10,
     color: colors.BLACK,
   },
 });

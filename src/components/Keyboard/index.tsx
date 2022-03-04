@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableHighlight } from 'react-native';
 import { styles } from './styles';
 
 const kb = [
@@ -13,9 +13,12 @@ const Keyboard: React.FC = () => (
     {kb.map(row => (
       <View key={row.join('')} style={styles.row}>
         {row.map(letter => (
-          <View style={styles.letterContainer} key={letter}>
+          <TouchableHighlight
+            onPress={() => console.log(letter)}
+            style={styles.letterContainer}
+            key={letter}>
             <Text style={styles.letterText}>{letter}</Text>
-          </View>
+          </TouchableHighlight>
         ))}
       </View>
     ))}
