@@ -13,12 +13,23 @@ export const styles = StyleSheet.create({
     borderWidth: 3,
     margin: 2,
     borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   unavailableBox: {
-    height: 55,
-    width: 55,
-    margin: 2,
-    borderRadius: 5,
+    borderWidth: 0,
     backgroundColor: colors.GREY,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  selectedBox: {
+    borderBottomWidth: 9,
+  },
+  boxText: {
+    position: 'absolute',
+    fontWeight: '900',
+    color: colors.BLACK,
+    textTransform: 'uppercase',
+    fontSize: 20,
   },
 });

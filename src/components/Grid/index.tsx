@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback, Text } from 'react-native';
 
 import { styles } from './styles';
 
@@ -22,18 +22,30 @@ const initialState: Array<Array<GridBox>> = Array(5)
 const Grid: React.FC = () => {
   const [grid, setGrid] = useState(initialState);
   const [selectedBox, setSelectedBox] = useState(0);
-  console.log(grid);
-
+  console.log(selectedBox);
   return (
     <View>
       {grid.map((row, rowIndex) => (
         <View key={`${rowIndex}`} style={styles.row}>
           {row.map((box, boxIndex) => (
             <TouchableWithoutFeedback
-              onPress={() => null}
-              key={`${boxIndex}`}
-              style={box.available ? styles.box : styles.unavailableBox}
-            />
+              onPress={() => {
+                if (grid[rowIndex][boxIndex].available) {
+                  setSelectedBox(rowIndex * 5 + boxIndex);
+                }
+              }}>
+              <View
+                key={`${boxIndex}`}
+                style={
+                  box.available
+                    ? selectedBox === rowIndex * 5 + boxIndex
+                      ? [styles.box, styles.selectedBox]
+                      : styles.box
+                    : [styles.box, styles.unavailableBox]
+                }>
+                <Text style={styles.boxText}>a</Text>
+              </View>
+            </TouchableWithoutFeedback>
           ))}
         </View>
       ))}

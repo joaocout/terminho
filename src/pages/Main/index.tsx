@@ -9,9 +9,7 @@ import Grid from '../../components/Grid';
 const RNTermooo: React.FC = () => (
   <View style={styles.container}>
     <Text style={styles.title}>TERMINHO</Text>
-    <View style={styles.gridContainer}>
-      <Grid />
-    </View>
+    <Grid />
     <Keyboard />
   </View>
 );

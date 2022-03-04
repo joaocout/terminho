@@ -5,15 +5,14 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 10,
     paddingHorizontal: 5,
     backgroundColor: colors.WHITE,
-    marginVertical: 40,
+    paddingVertical: 70,
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: '900',
     fontSize: 20,
     color: colors.BLACK,
-    marginBottom: 10,
+    marginBottom: 20,
   },
 });
