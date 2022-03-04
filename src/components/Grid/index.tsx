@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { View, TouchableWithoutFeedback, Text } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { styles } from './styles';
 
@@ -19,32 +24,50 @@ const initialState: Array<Array<GridBox>> = Array(5)
     return item;
   });
 
+const SELECTED_BOTTOM_BORDER_WIDTH = 9;
+const BOTTOM_BORDER_WIDTH = 3;
+
 const Grid: React.FC = () => {
   const [grid, setGrid] = useState(initialState);
   const [selectedBox, setSelectedBox] = useState(0);
-  console.log(selectedBox);
+
+  const borderBottomWidth = useSharedValue(BOTTOM_BORDER_WIDTH);
+
+  const borderBottomAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      borderBottomWidth: borderBottomWidth.value,
+    };
+  });
+
+  console.log(borderBottomWidth.value);
+
   return (
     <View>
       {grid.map((row, rowIndex) => (
         <View key={`${rowIndex}`} style={styles.row}>
           {row.map((box, boxIndex) => (
             <TouchableWithoutFeedback
+              key={`${boxIndex}`}
               onPress={() => {
                 if (grid[rowIndex][boxIndex].available) {
+                  borderBottomWidth.value = 3;
                   setSelectedBox(rowIndex * 5 + boxIndex);
+                  borderBottomWidth.value = withTiming(
+                    SELECTED_BOTTOM_BORDER_WIDTH,
+                    { duration: 200 },
+                  );
                 }
               }}>
-              <View
-                key={`${boxIndex}`}
+              <Animated.View
                 style={
                   box.available
                     ? selectedBox === rowIndex * 5 + boxIndex
-                      ? [styles.box, styles.selectedBox]
+                      ? [styles.box, borderBottomAnimatedStyle]
                       : styles.box
                     : [styles.box, styles.unavailableBox]
                 }>
                 <Text style={styles.boxText}>a</Text>
-              </View>
+              </Animated.View>
             </TouchableWithoutFeedback>
           ))}
         </View>
