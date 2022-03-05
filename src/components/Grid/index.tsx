@@ -29,7 +29,7 @@ const BOTTOM_BORDER_WIDTH = 3;
 
 const Grid: React.FC = () => {
   const [grid, setGrid] = useState(initialState);
-  const [selectedBox, setSelectedBox] = useState(0);
+  const [selectedBoxIndex, setSelectedBox] = useState(0);
 
   const borderBottomWidth = useSharedValue(BOTTOM_BORDER_WIDTH);
 
@@ -38,8 +38,6 @@ const Grid: React.FC = () => {
       borderBottomWidth: borderBottomWidth.value,
     };
   });
-
-  console.log(borderBottomWidth.value);
 
   return (
     <View>
@@ -50,23 +48,25 @@ const Grid: React.FC = () => {
               key={`${boxIndex}`}
               onPress={() => {
                 if (grid[rowIndex][boxIndex].available) {
-                  borderBottomWidth.value = 3;
-                  setSelectedBox(rowIndex * 5 + boxIndex);
-                  borderBottomWidth.value = withTiming(
-                    SELECTED_BOTTOM_BORDER_WIDTH,
-                    { duration: 200 },
-                  );
+                  if (rowIndex * 5 + boxIndex! !== selectedBoxIndex) {
+                    borderBottomWidth.value = 3;
+                    setSelectedBox(rowIndex * 5 + boxIndex);
+                    borderBottomWidth.value = withTiming(
+                      SELECTED_BOTTOM_BORDER_WIDTH,
+                      { duration: 200 },
+                    );
+                  }
                 }
               }}>
               <Animated.View
                 style={
                   box.available
-                    ? selectedBox === rowIndex * 5 + boxIndex
+                    ? selectedBoxIndex === rowIndex * 5 + boxIndex
                       ? [styles.box, borderBottomAnimatedStyle]
                       : styles.box
                     : [styles.box, styles.unavailableBox]
                 }>
-                <Text style={styles.boxText}>a</Text>
+                <Text style={styles.boxText}>{box.value}</Text>
               </Animated.View>
             </TouchableWithoutFeedback>
           ))}
