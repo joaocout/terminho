@@ -14,7 +14,7 @@ const Keyboard: React.FC = () => (
       <View key={row.join('')} style={styles.row}>
         {row.map(letter => (
           <TouchableHighlight
-            onPress={() => console.log(letter)}
+            onPress={() => null}
             style={styles.letterContainer}
             key={letter}>
             <Text style={styles.letterText}>{letter}</Text>
