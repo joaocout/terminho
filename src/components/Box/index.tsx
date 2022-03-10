@@ -27,14 +27,23 @@ const Box: React.FC<BoxProps> = ({
   onSelectedBoxChange,
 }) => {
   // border bottom width animation
-  const borderBottomSV = useSharedValue(BOTTOM_BORDER_WIDTH_DEFAULT);
+  const borderBottomSV = useSharedValue(
+    index === 0 ? BOTTOM_BORDER_WIDTH_SELECTED : BOTTOM_BORDER_WIDTH_DEFAULT,
+  );
   const borderBottomAStyle = useAnimatedStyle(() => ({
     borderBottomWidth: borderBottomSV.value,
   }));
 
   useEffect(() => {
+    // if this box is not selected, its border value should go back to default
     if (selectedIndex !== index) {
       borderBottomSV.value = BOTTOM_BORDER_WIDTH_DEFAULT;
+
+      // if this box is selected, we animate its border value
+    } else {
+      borderBottomSV.value = withTiming(BOTTOM_BORDER_WIDTH_SELECTED, {
+        duration: 100,
+      });
     }
   }, [borderBottomSV, selectedIndex, index]);
 
@@ -42,9 +51,6 @@ const Box: React.FC<BoxProps> = ({
     <TouchableWithoutFeedback
       onPress={() => {
         if (selectedIndex !== index) {
-          borderBottomSV.value = withTiming(BOTTOM_BORDER_WIDTH_SELECTED, {
-            duration: 200,
-          });
           onSelectedBoxChange(index);
         }
       }}>

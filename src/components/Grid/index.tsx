@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 
 import { styles } from './styles';
 
+import { GridContext } from '../../shared/context';
 import Box from '../Box';
 
 export type GridBox = {
@@ -10,33 +11,20 @@ export type GridBox = {
   value: string;
 };
 
-const initialState: Array<Array<GridBox>> = Array(5)
-  .fill(Array(5).fill({ available: false, value: '' }))
-  .map((item, index) => {
-    if (index === 0) {
-      // initializing first row with active boxes
-      const arr: Array<GridBox> = Array(5).fill({ available: true, value: '' });
-      return arr;
-    }
-    return item;
-  });
-
 const Grid: React.FC = () => {
-  const [grid, setGrid] = useState(initialState);
-  const [selectedBoxIndex, setSelectedBoxIndex] = useState(0);
-
-  console.log(selectedBoxIndex);
+  const { grid, selectedBox, setSelectedBox } = useContext(GridContext);
 
   return (
     <View>
       {grid.map((row, rowIndex) => (
         <View key={`${rowIndex}`} style={styles.row}>
-          {row.map((box, boxIndex) => (
+          {row.map((box, columnIndex) => (
             <Box
-              index={rowIndex * 5 + boxIndex}
-              selectedIndex={selectedBoxIndex}
+              key={`${columnIndex}`}
+              index={rowIndex * 5 + columnIndex}
+              selectedIndex={selectedBox}
               box={box}
-              onSelectedBoxChange={selected => setSelectedBoxIndex(selected)}
+              onSelectedBoxChange={selected => setSelectedBox(selected)}
             />
           ))}
         </View>
