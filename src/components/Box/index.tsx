@@ -4,9 +4,16 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
+  withSpring,
+  withSequence,
 } from 'react-native-reanimated';
 
 import { styles } from './styles';
+
+import {
+  BOTTOM_BORDER_WIDTH_DEFAULT,
+  BOTTOM_BORDER_WIDTH_SELECTED,
+} from '../../shared/constants';
 
 import type { GridBox } from '../Grid';
 
@@ -16,9 +23,6 @@ type BoxProps = {
   box: GridBox;
   onSelectedBoxChange: (selectedBox: number) => void;
 };
-
-const BOTTOM_BORDER_WIDTH_SELECTED = 9;
-const BOTTOM_BORDER_WIDTH_DEFAULT = 3;
 
 const Box: React.FC<BoxProps> = ({
   index,
@@ -34,6 +38,13 @@ const Box: React.FC<BoxProps> = ({
     borderBottomWidth: borderBottomSV.value,
   }));
 
+  // box scale animation
+  const scaleSV = useSharedValue(1);
+  const scaleAStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scaleSV.value }],
+  }));
+
+  // handling bottom border animations
   useEffect(() => {
     // if this box is not selected, its border value should go back to default
     if (selectedIndex !== index) {
@@ -47,6 +58,22 @@ const Box: React.FC<BoxProps> = ({
     }
   }, [borderBottomSV, selectedIndex, index]);
 
+  // bottom border animation of last box in a row
+  useEffect(() => {
+    if (box.value !== '' && index % 5 === 4) {
+      borderBottomSV.value = BOTTOM_BORDER_WIDTH_DEFAULT;
+    }
+  }, [borderBottomSV, box, index]);
+
+  useEffect(() => {
+    if (box.value !== '') {
+      scaleSV.value = withSequence(
+        withSpring(1.1, { damping: 20, stiffness: 400, restSpeedThreshold: 4 }),
+        withSpring(1, { restSpeedThreshold: 4 }),
+      );
+    }
+  }, [box, scaleSV]);
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -57,7 +84,7 @@ const Box: React.FC<BoxProps> = ({
       <Animated.View
         style={
           box.available
-            ? [styles.container, borderBottomAStyle]
+            ? [styles.container, borderBottomAStyle, scaleAStyle]
             : [styles.container, styles.unavailable]
         }>
         <Text style={styles.text}>{box.value}</Text>
