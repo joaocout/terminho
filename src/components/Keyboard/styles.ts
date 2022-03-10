@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../shared/colors';
+
+import { COLORS } from '../../shared/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,13 +14,13 @@ export const styles = StyleSheet.create({
   letterContainer: {
     paddingHorizontal: 8,
     paddingVertical: 10,
-    backgroundColor: colors.ACCENT,
+    backgroundColor: COLORS.ACCENT,
     margin: 2,
     borderRadius: 5,
   },
   letterText: {
     textTransform: 'uppercase',
-    color: colors.WHITE,
+    color: COLORS.WHITE,
     fontSize: 18,
     fontWeight: '900',
   },

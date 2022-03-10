@@ -6,11 +6,6 @@ import { styles } from './styles';
 import { GridContext } from '../../shared/context';
 import Box from '../Box';
 
-export type GridBox = {
-  available: boolean;
-  value: string;
-};
-
 const Grid: React.FC = () => {
   const { grid, selectedBox, setSelectedBox } = useContext(GridContext);
 

@@ -1,15 +1,6 @@
 import React, { createContext, useState } from 'react';
 
-import type { GridBox } from '../components/Grid';
-
-type GridContextParams = {
-  selectedBox: number;
-  grid: GridBox[][];
-  setSelectedBox: React.Dispatch<React.SetStateAction<number>>;
-  updateBoxValue: (boxIndex: number, newValue: string) => void;
-  nextRow: (rowIndex: number) => void;
-  reset: () => void;
-};
+import type { GridBox, GridContextParams } from '../shared/types';
 
 const initialState: Array<Array<GridBox>> = Array(5)
   .fill(Array(5).fill({ available: false, value: '' }))

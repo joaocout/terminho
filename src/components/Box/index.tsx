@@ -15,14 +15,7 @@ import {
   BOTTOM_BORDER_WIDTH_SELECTED,
 } from '../../shared/constants';
 
-import type { GridBox } from '../Grid';
-
-type BoxProps = {
-  index: number;
-  selectedIndex: number;
-  box: GridBox;
-  onSelectedBoxChange: (selectedBox: number) => void;
-};
+import type { BoxProps } from '../../shared/types';
 
 const Box: React.FC<BoxProps> = ({
   index,
