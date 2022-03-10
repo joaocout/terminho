@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-import { COLORS, BOTTOM_BORDER_WIDTH_DEFAULT } from '../../shared/constants';
+import { COLORS } from '../../shared/constants';
 
 export const styles = StyleSheet.create({
   container: {
     height: 55,
     width: 55,
     borderColor: COLORS.ACCENT,
-    borderWidth: BOTTOM_BORDER_WIDTH_DEFAULT,
+    borderWidth: 4,
     margin: 2,
     borderRadius: 6,
     alignItems: 'center',
@@ -21,12 +21,16 @@ export const styles = StyleSheet.create({
     borderWidth: 0,
     backgroundColor: COLORS.DARKER_ACCENT,
   },
+  textContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   text: {
     position: 'absolute',
     fontWeight: '900',
     color: COLORS.BLACK,
     textTransform: 'uppercase',
-    fontSize: 20,
+    fontSize: 28,
   },
   whiteText: {
     color: COLORS.WHITE,

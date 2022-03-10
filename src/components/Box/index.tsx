@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react';
-import { TouchableWithoutFeedback, Text } from 'react-native';
+import React from 'react';
+import { TouchableWithoutFeedback, Text, View } from 'react-native';
 import Animated, {
-  useSharedValue,
+  useDerivedValue,
   useAnimatedStyle,
   withTiming,
-  withSpring,
   withSequence,
+  withDelay,
 } from 'react-native-reanimated';
 
 import { styles } from './styles';
 
-import {
-  BOTTOM_BORDER_WIDTH_DEFAULT,
-  BOTTOM_BORDER_WIDTH_SELECTED,
-} from '../../shared/constants';
+import { COLORS } from '../../shared/constants';
 
 import type { BoxProps } from '../../shared/types';
 
@@ -23,47 +20,30 @@ const Box: React.FC<BoxProps> = ({
   box,
   onSelectedBoxChange,
 }) => {
-  // bottom border animation
-  const borderBottomSV = useSharedValue(
-    index === 0 ? BOTTOM_BORDER_WIDTH_SELECTED : BOTTOM_BORDER_WIDTH_DEFAULT,
-  );
-  const borderBottomAStyle = useAnimatedStyle(() => ({
-    borderBottomWidth: borderBottomSV.value,
-  }));
-
   // scale animation
-  const scaleSV = useSharedValue(1);
+  const scaleSV = useDerivedValue(() => {
+    if (box.value !== '') {
+      return withSequence(
+        withTiming(1.1, { duration: 50 }),
+        withTiming(1, { duration: 50 }),
+      );
+    }
+    return 1;
+  }, [box]);
   const scaleAStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scaleSV.value }],
   }));
 
-  //handling bottom border animation
-  useEffect(() => {
-    if (selectedIndex !== index) {
-      borderBottomSV.value = BOTTOM_BORDER_WIDTH_DEFAULT;
-    } else {
-      borderBottomSV.value = withTiming(BOTTOM_BORDER_WIDTH_SELECTED, {
-        duration: 100,
-      });
+  // rotation Y animation
+  const rotationYSV = useDerivedValue(() => {
+    if (!box.available && box.value !== '') {
+      return withDelay((index % 5) * 200, withTiming(-180, { duration: 600 }));
     }
-  }, [borderBottomSV, selectedIndex, index]);
-
-  //animating last box from row
-  useEffect(() => {
-    if (box.value !== '' && index % 5 === 4) {
-      borderBottomSV.value = BOTTOM_BORDER_WIDTH_DEFAULT;
-    }
-  }, [borderBottomSV, box, index]);
-
-  // animating when typing
-  useEffect(() => {
-    if (box.value !== '') {
-      scaleSV.value = withSequence(
-        withSpring(1.1, { damping: 20, stiffness: 400, restSpeedThreshold: 4 }),
-        withSpring(1, { damping: 20, stiffness: 400, restSpeedThreshold: 4 }),
-      );
-    }
-  }, [box, scaleSV]);
+    return 0;
+  }, [box, index]);
+  const rotationAStyle = useAnimatedStyle(() => ({
+    transform: [{ rotateY: `${rotationYSV.value}deg` }],
+  }));
 
   return (
     <TouchableWithoutFeedback
@@ -72,19 +52,27 @@ const Box: React.FC<BoxProps> = ({
           onSelectedBoxChange(index);
         }
       }}>
-      <Animated.View
-        style={
-          box.available
-            ? [styles.container, borderBottomAStyle, scaleAStyle]
-            : box.value !== ''
-            ? [styles.container, styles.answered]
-            : [styles.container, styles.unavailable]
-        }>
+      <View style={styles.textContainer}>
+        <Animated.View
+          style={
+            box.available
+              ? [
+                  styles.container,
+                  scaleAStyle,
+                  index === selectedIndex
+                    ? { borderColor: COLORS.DARKER_ACCENT }
+                    : {},
+                ]
+              : box.value !== ''
+              ? [styles.container, styles.answered, rotationAStyle]
+              : [styles.container, styles.unavailable]
+          }
+        />
         <Text
           style={box.available ? styles.text : [styles.text, styles.whiteText]}>
           {box.value}
         </Text>
-      </Animated.View>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
