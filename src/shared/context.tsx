@@ -8,7 +8,6 @@ type GridContextParams = {
   setSelectedBox: React.Dispatch<React.SetStateAction<number>>;
   updateBoxValue: (boxIndex: number, newValue: string) => void;
   toggleBoxAvailability: (boxIndex: number) => void;
-  // setGrid: React.Dispatch<React.SetStateAction<GridBox[][]>>;
 };
 
 const initialState: Array<Array<GridBox>> = Array(5)

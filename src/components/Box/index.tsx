@@ -30,7 +30,7 @@ const Box: React.FC<BoxProps> = ({
   box,
   onSelectedBoxChange,
 }) => {
-  // border bottom width animation
+  // bottom border animation
   const borderBottomSV = useSharedValue(
     index === 0 ? BOTTOM_BORDER_WIDTH_SELECTED : BOTTOM_BORDER_WIDTH_DEFAULT,
   );
@@ -38,19 +38,16 @@ const Box: React.FC<BoxProps> = ({
     borderBottomWidth: borderBottomSV.value,
   }));
 
-  // box scale animation
+  // scale animation
   const scaleSV = useSharedValue(1);
   const scaleAStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scaleSV.value }],
   }));
 
-  // handling bottom border animations
+  //handling bottom border animation
   useEffect(() => {
-    // if this box is not selected, its border value should go back to default
     if (selectedIndex !== index) {
       borderBottomSV.value = BOTTOM_BORDER_WIDTH_DEFAULT;
-
-      // if this box is selected, we animate its border value
     } else {
       borderBottomSV.value = withTiming(BOTTOM_BORDER_WIDTH_SELECTED, {
         duration: 100,
@@ -58,13 +55,14 @@ const Box: React.FC<BoxProps> = ({
     }
   }, [borderBottomSV, selectedIndex, index]);
 
-  // bottom border animation of last box in a row
+  //animating last box from row
   useEffect(() => {
     if (box.value !== '' && index % 5 === 4) {
       borderBottomSV.value = BOTTOM_BORDER_WIDTH_DEFAULT;
     }
   }, [borderBottomSV, box, index]);
 
+  // animating when typing
   useEffect(() => {
     if (box.value !== '') {
       scaleSV.value = withSequence(

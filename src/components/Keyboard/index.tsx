@@ -21,7 +21,6 @@ const Keyboard: React.FC = () => {
         <View key={row.join('')} style={styles.row}>
           {row.map(key => (
             <TouchableHighlight
-              // handling key presses
               onPress={() => {
                 //if the length is 1, it's a letter
                 if (key.length === 1) {
