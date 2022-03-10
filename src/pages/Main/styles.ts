@@ -7,12 +7,22 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 5,
     backgroundColor: colors.WHITE,
-    paddingVertical: 70,
+    paddingBottom: 70,
   },
   title: {
+    paddingTop: 50,
     fontWeight: '900',
     fontSize: 20,
     color: colors.BLACK,
-    marginBottom: 20,
+    marginBottom: 10,
+  },
+  resetText: {
+    color: colors.BLACK,
+    textAlign: 'right',
+  },
+  resetContainer: {
+    alignSelf: 'stretch',
+    backgroundColor: 'yellow',
+    alignItems: 'flex-end',
   },
 });

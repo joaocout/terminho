@@ -75,7 +75,7 @@ const Box: React.FC<BoxProps> = ({
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        if (selectedIndex !== index) {
+        if (selectedIndex !== index && box.available) {
           onSelectedBoxChange(index);
         }
       }}>
@@ -83,9 +83,14 @@ const Box: React.FC<BoxProps> = ({
         style={
           box.available
             ? [styles.container, borderBottomAStyle, scaleAStyle]
+            : box.value !== ''
+            ? [styles.container, styles.answered]
             : [styles.container, styles.unavailable]
         }>
-        <Text style={styles.text}>{box.value}</Text>
+        <Text
+          style={box.available ? styles.text : [styles.text, styles.whiteText]}>
+          {box.value}
+        </Text>
       </Animated.View>
     </TouchableWithoutFeedback>
   );

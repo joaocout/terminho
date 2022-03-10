@@ -12,7 +12,7 @@ const kb = [
 ];
 
 const Keyboard: React.FC = () => {
-  const { selectedBox, setSelectedBox, updateBoxValue } =
+  const { selectedBox, setSelectedBox, updateBoxValue, nextRow } =
     useContext(GridContext);
 
   return (
@@ -33,6 +33,12 @@ const Keyboard: React.FC = () => {
                   if (selectedBox % 5 > 0) {
                     setSelectedBox(prev => prev - 1);
                   }
+                } else if (key === 'enter') {
+                  // toggling availability for all items in the row after enter in pressed
+                  const gridRowIndex = Math.floor(selectedBox / 5);
+                  nextRow(gridRowIndex);
+                  const nextSelected = gridRowIndex * 5 + 5;
+                  setSelectedBox(nextSelected);
                 }
               }}
               style={styles.letterContainer}

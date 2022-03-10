@@ -10,15 +10,17 @@ export const styles = StyleSheet.create({
     borderColor: colors.ACCENT,
     borderWidth: BOTTOM_BORDER_WIDTH_DEFAULT,
     margin: 2,
-    borderRadius: 5,
+    borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },
   unavailable: {
     borderWidth: 0,
     backgroundColor: colors.GREY,
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  answered: {
+    borderWidth: 0,
+    backgroundColor: colors.DARKER_ACCENT,
   },
   text: {
     position: 'absolute',
@@ -26,5 +28,8 @@ export const styles = StyleSheet.create({
     color: colors.BLACK,
     textTransform: 'uppercase',
     fontSize: 20,
+  },
+  whiteText: {
+    color: colors.WHITE,
   },
 });
