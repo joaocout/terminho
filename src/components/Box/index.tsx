@@ -67,7 +67,7 @@ const Box: React.FC<BoxProps> = ({
     if (box.value !== '') {
       scaleSV.value = withSequence(
         withSpring(1.1, { damping: 20, stiffness: 400, restSpeedThreshold: 4 }),
-        withSpring(1, { restSpeedThreshold: 4 }),
+        withSpring(1, { damping: 20, stiffness: 400, restSpeedThreshold: 4 }),
       );
     }
   }, [box, scaleSV]);
