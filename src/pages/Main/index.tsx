@@ -12,10 +12,8 @@ const RNTermooo: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={{ alignSelf: 'stretch' }}
-        onPress={() => reset()}>
-        <Text style={{ textAlign: 'right' }}>RESET</Text>
+      <TouchableOpacity style={styles.resetContainer} onPress={() => reset()}>
+        <Text style={styles.resetText}>RESET</Text>
       </TouchableOpacity>
       <Text style={styles.title}>TERMINHO</Text>
       <Grid />

@@ -22,27 +22,28 @@ const Box: React.FC<BoxProps> = ({
 }) => {
   // scale animation
   const scaleSV = useDerivedValue(() => {
-    if (box.value !== '') {
+    if (box.value !== '' && box.available) {
       return withSequence(
         withTiming(1.1, { duration: 50 }),
         withTiming(1, { duration: 50 }),
       );
     }
     return 1;
-  }, [box]);
-  const scaleAStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scaleSV.value }],
-  }));
+  }, [box.value]);
 
-  // rotation Y animation
+  // rotation animation
   const rotationYSV = useDerivedValue(() => {
     if (!box.available && box.value !== '') {
       return withDelay((index % 5) * 200, withTiming(-180, { duration: 600 }));
     }
     return 0;
-  }, [box, index]);
-  const rotationAStyle = useAnimatedStyle(() => ({
-    transform: [{ rotateY: `${rotationYSV.value}deg` }],
+  }, [box.available, index]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { rotateY: `${rotationYSV.value}deg` },
+      { scale: scaleSV.value },
+    ],
   }));
 
   return (
@@ -58,13 +59,13 @@ const Box: React.FC<BoxProps> = ({
             box.available
               ? [
                   styles.container,
-                  scaleAStyle,
+                  animatedStyle,
                   index === selectedIndex
                     ? { borderColor: COLORS.DARKER_ACCENT }
                     : {},
                 ]
               : box.value !== ''
-              ? [styles.container, styles.answered, rotationAStyle]
+              ? [styles.container, styles.answered, animatedStyle]
               : [styles.container, styles.unavailable]
           }
         />

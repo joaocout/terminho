@@ -18,12 +18,9 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   resetText: {
-    color: COLORS.BLACK,
     textAlign: 'right',
   },
   resetContainer: {
     alignSelf: 'stretch',
-    backgroundColor: 'yellow',
-    alignItems: 'flex-end',
   },
 });
