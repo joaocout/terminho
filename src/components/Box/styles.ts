@@ -17,10 +17,6 @@ export const styles = StyleSheet.create({
     borderWidth: 0,
     backgroundColor: COLORS.GREY,
   },
-  answered: {
-    borderWidth: 0,
-    backgroundColor: COLORS.DARKER_ACCENT,
-  },
   textContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -31,8 +27,5 @@ export const styles = StyleSheet.create({
     color: COLORS.BLACK,
     textTransform: 'uppercase',
     fontSize: 28,
-  },
-  whiteText: {
-    color: COLORS.WHITE,
   },
 });

@@ -14,6 +14,8 @@ import { COLORS } from '../../shared/constants';
 
 import type { GridBox } from '../../shared/types';
 
+const CORRECT_WORD = 'termo';
+
 export type BoxProps = {
   index: number;
   selectedIndex: number;
@@ -28,6 +30,18 @@ const Box: React.FC<BoxProps> = ({
   onSelectedBoxChange,
 }) => {
   // scale animation
+
+  if (!box.available && box.value.length) {
+    console.log(index);
+  }
+
+  const answeredColor =
+    box.value === CORRECT_WORD[index % 5].toLowerCase()
+      ? 'green'
+      : CORRECT_WORD.toLocaleLowerCase().includes(box.value)
+      ? 'goldenrod'
+      : COLORS.DARKER_ACCENT;
+
   const scaleSV = useDerivedValue(() => {
     if (box.value.length && box.available) {
       return withSequence(
@@ -72,13 +86,18 @@ const Box: React.FC<BoxProps> = ({
                     ? { borderColor: COLORS.DARKER_ACCENT }
                     : {},
                 ]
-              : box.value !== ''
-              ? [styles.container, styles.answered, animatedStyle]
-              : [styles.container, styles.unavailable]
+              : [
+                  styles.container,
+                  animatedStyle,
+                  styles.unavailable,
+                  box.value.length
+                    ? { backgroundColor: answeredColor, borderWidth: 0 }
+                    : {},
+                ]
           }
         />
         <Text
-          style={box.available ? styles.text : [styles.text, styles.whiteText]}>
+          style={[styles.text, !box.available ? { color: COLORS.WHITE } : {}]}>
           {box.value}
         </Text>
       </View>
