@@ -1,4 +1,4 @@
-package com.rntermooo.newarchitecture;
+package com.terminho.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.rntermooo.BuildConfig;
-import com.rntermooo.newarchitecture.components.MainComponentsRegistry;
-import com.rntermooo.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.terminho.BuildConfig;
+import com.terminho.newarchitecture.components.MainComponentsRegistry;
+import com.terminho.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
