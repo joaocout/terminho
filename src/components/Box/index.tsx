@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TouchableWithoutFeedback, Text, View } from 'react-native';
 import Animated, {
   useDerivedValue,
