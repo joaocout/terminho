@@ -13,10 +13,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  unavailable: {
-    backgroundColor: COLORS.GREY,
-    borderWidth: 0,
-  },
   textContainer: {
     alignItems: 'center',
     justifyContent: 'center',

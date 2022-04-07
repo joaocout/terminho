@@ -6,6 +6,7 @@ import Animated, {
   withTiming,
   withSequence,
   withDelay,
+  Easing,
 } from 'react-native-reanimated';
 
 import { styles } from './styles';
@@ -49,7 +50,7 @@ const Box: React.FC<BoxProps> = React.memo(
       if (!box.available && box.value.length) {
         return withDelay(
           (index % 5) * 200,
-          withTiming(-180, { duration: 600 }),
+          withTiming(-180, { duration: 600, easing: Easing.linear }),
         );
       }
       return 0;

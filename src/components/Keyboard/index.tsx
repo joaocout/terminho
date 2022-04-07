@@ -64,7 +64,7 @@ const Key: React.FC<KeyProps> = ({ onPress, keyPressed: key }) => {
   return (
     <Pressable
       onPressIn={() => {
-        scaleSV.value = withTiming(1.3, { duration: 35 });
+        scaleSV.value = withTiming(1.3, { duration: 40 });
       }}
       onPressOut={() => {
         cancelAnimation(scaleSV);
