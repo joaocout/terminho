@@ -11,7 +11,7 @@ export type GridContextParams = {
   reset: () => void;
 };
 
-const initialState: Array<Array<GridBox>> = Array(5)
+const initialState: Array<Array<GridBox>> = Array(6)
   .fill(Array(5).fill({ available: false, value: '' }))
   .map((item, index) => {
     if (index === 0) {

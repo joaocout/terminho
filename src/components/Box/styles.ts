@@ -26,6 +26,6 @@ export const styles = StyleSheet.create({
     fontWeight: '900',
     color: COLORS.BLACK,
     textTransform: 'uppercase',
-    fontSize: 28,
+    fontSize: 32,
   },
 });

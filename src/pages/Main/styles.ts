@@ -8,10 +8,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 5,
     backgroundColor: COLORS.WHITE,
-    paddingBottom: 70,
+    paddingBottom: 10,
+    justifyContent: 'space-between',
   },
   title: {
-    paddingTop: 50,
     fontWeight: '900',
     fontSize: 20,
     color: COLORS.BLACK,

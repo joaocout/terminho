@@ -1,6 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 import { COLORS } from '../../shared/constants';
+
+const { width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,10 +15,13 @@ export const styles = StyleSheet.create({
   },
   letterContainer: {
     paddingHorizontal: 8,
-    paddingVertical: 10,
+    paddingVertical: 12,
     backgroundColor: COLORS.ACCENT,
     margin: 2,
     borderRadius: 5,
+    minWidth: width / 14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   letterText: {
     textTransform: 'uppercase',

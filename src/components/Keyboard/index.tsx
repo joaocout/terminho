@@ -12,6 +12,7 @@ const kb = [
 ];
 
 const Keyboard: React.FC = () => {
+  //TODO Remove selectedBox dependency
   const { selectedBox, setSelectedBox, updateBoxValue, nextRow } =
     useContext(GridContext);
 
