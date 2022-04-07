@@ -10,7 +10,7 @@ import Animated, {
 
 import { styles } from './styles';
 
-import { COLORS } from '../../shared/constants';
+import { COLORS, BOTTOM_BORDER_WIDTH_DEFAULT } from '../../shared/constants';
 
 import type { GridBox } from '../../shared/types';
 
@@ -49,17 +49,45 @@ const Box: React.FC<BoxProps> = React.memo(
       if (!box.available && box.value.length) {
         return withDelay(
           (index % 5) * 200,
-          withTiming(-180, { duration: 500 }),
+          withTiming(-180, { duration: 600 }),
         );
       }
       return 0;
     }, [box.available, index]);
+
+    // background color transition
+    const backgroundColorSV = useDerivedValue(() => {
+      if (!box.available && box.value.length) {
+        return withDelay(
+          (index % 5) * 200 + 300,
+          withTiming(answeredColor, { duration: 0 }),
+        );
+      } else if (!box.available && !box.value.length) {
+        return COLORS.GREY;
+      }
+      return COLORS.WHITE;
+    }, [box.available, box.value]);
+
+    // border width transition
+    const borderWidthSV = useDerivedValue(() => {
+      if (!box.available && box.value.length) {
+        return withDelay(
+          (index % 5) * 200 + 300,
+          withTiming(0, { duration: 0 }),
+        );
+      } else if (!box.available && !box.value.length) {
+        return 0;
+      }
+      return BOTTOM_BORDER_WIDTH_DEFAULT;
+    }, [box.available, box.value]);
 
     const animatedStyle = useAnimatedStyle(() => ({
       transform: [
         { scale: scaleSV.value },
         { rotateY: `${rotationYSV.value}deg` },
       ],
+      backgroundColor: backgroundColorSV.value,
+      borderWidth: borderWidthSV.value,
     }));
 
     return (
@@ -78,14 +106,7 @@ const Box: React.FC<BoxProps> = React.memo(
                     animatedStyle,
                     isSelected ? { borderColor: COLORS.DARKER_ACCENT } : {},
                   ]
-                : [
-                    styles.container,
-                    animatedStyle,
-                    styles.unavailable,
-                    box.value.length
-                      ? { backgroundColor: answeredColor, borderWidth: 0 }
-                      : {},
-                  ]
+                : [styles.container, animatedStyle]
             }
           />
           <Text

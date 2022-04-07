@@ -1,21 +1,21 @@
 import { StyleSheet } from 'react-native';
 
-import { COLORS } from '../../shared/constants';
+import { COLORS, BOTTOM_BORDER_WIDTH_DEFAULT } from '../../shared/constants';
 
 export const styles = StyleSheet.create({
   container: {
     height: 55,
     width: 55,
     borderColor: COLORS.ACCENT,
-    borderWidth: 4,
+    borderWidth: BOTTOM_BORDER_WIDTH_DEFAULT,
     margin: 2,
     borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },
   unavailable: {
-    borderWidth: 0,
     backgroundColor: COLORS.GREY,
+    borderWidth: 0,
   },
   textContainer: {
     alignItems: 'center',
