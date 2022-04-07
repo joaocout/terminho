@@ -10,7 +10,7 @@ const Grid: React.FC = () => {
   const { grid, selectedBox, setSelectedBox } = useContext(GridContext);
 
   const onSelectedBoxChange = useCallback(
-    selected => {
+    (selected) => {
       setSelectedBox(selected);
     },
     [setSelectedBox],

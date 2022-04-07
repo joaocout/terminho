@@ -32,10 +32,10 @@ const Store: React.FC = ({ children }) => {
   const nextRow = () => {
     const newGrid = grid.map((row, index) => {
       if (index === activeRowIndex) {
-        return row.map(box => ({ ...box, available: false }));
+        return row.map((box) => ({ ...box, available: false }));
       }
       if (index === activeRowIndex + 1) {
-        return row.map(box => ({ ...box, available: true }));
+        return row.map((box) => ({ ...box, available: true }));
       }
       return row;
     });
@@ -47,14 +47,14 @@ const Store: React.FC = ({ children }) => {
   const nextBox = () => {
     // if the selectedbox is not the last from its row
     if (selectedBox % 5 < 4) {
-      setSelectedBox(prev => prev + 1);
+      setSelectedBox((prev) => prev + 1);
     }
   };
 
   const prevBox = () => {
     // if the selectedbox is not the first from its row
     if (selectedBox % 5 > 0) {
-      setSelectedBox(prev => prev - 1);
+      setSelectedBox((prev) => prev - 1);
     }
   };
 

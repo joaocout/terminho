@@ -10,6 +10,8 @@ module.exports = {
         '@typescript-eslint/no-shadow': ['error'],
         'no-shadow': 'off',
         'no-undef': 'off',
+        'prefer-const': 'warn',
+        'spaced-comment': 'warn',
       },
     },
   ],
