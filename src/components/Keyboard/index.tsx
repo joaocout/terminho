@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -52,6 +53,7 @@ type KeyProps = {
   keyPressed: string;
 };
 
+// TODO Move this to its own files
 const Key: React.FC<KeyProps> = ({ onPress, keyPressed: key }) => {
   // scale animation for key
   const scaleSV = useSharedValue(1);
@@ -60,18 +62,19 @@ const Key: React.FC<KeyProps> = ({ onPress, keyPressed: key }) => {
   }));
 
   return (
-    <TouchableWithoutFeedback
+    <Pressable
       onPressIn={() => {
-        scaleSV.value = withTiming(1.4, { duration: 40 });
+        scaleSV.value = withTiming(1.3, { duration: 35 });
       }}
       onPressOut={() => {
+        cancelAnimation(scaleSV);
         scaleSV.value = 1;
       }}
       onPress={() => onPress(key)}>
       <Animated.View style={[styles.letterContainer, animatedStyle]}>
         <Text style={styles.letterText}>{key}</Text>
       </Animated.View>
-    </TouchableWithoutFeedback>
+    </Pressable>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableWithoutFeedback, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useDerivedValue,
   useAnimatedStyle,
@@ -63,7 +63,7 @@ const Box: React.FC<BoxProps> = React.memo(
     }));
 
     return (
-      <TouchableWithoutFeedback
+      <Pressable
         onPress={() => {
           if (!isSelected && box.available) {
             onSelectedBoxChange(index);
@@ -96,7 +96,7 @@ const Box: React.FC<BoxProps> = React.memo(
             {box.value}
           </Text>
         </View>
-      </TouchableWithoutFeedback>
+      </Pressable>
     );
   },
 );

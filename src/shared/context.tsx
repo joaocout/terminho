@@ -11,7 +11,6 @@ export type GridContextParams = {
   nextBox: () => void;
   prevBox: () => void;
   reset: () => void;
-  double: (n: number) => number;
 };
 
 const initialState: Array<Array<GridBox>> = Array(6)
@@ -29,10 +28,6 @@ const Store: React.FC = ({ children }) => {
   const [selectedBox, setSelectedBox] = useState(0);
   const [grid, setGrid] = useState(initialState);
   const activeRowIndex = Math.floor(selectedBox / 5);
-
-  const double = React.useCallback((n: number) => {
-    return n * 2;
-  }, []);
 
   const nextRow = () => {
     const newGrid = grid.map((row, index) => {
@@ -83,7 +78,6 @@ const Store: React.FC = ({ children }) => {
   return (
     <GridContext.Provider
       value={{
-        double,
         grid,
         selectedBox,
         updateBoxValue,

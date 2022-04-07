@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
   },
   resetText: {
     textAlign: 'right',
+    color: 'lightgrey',
   },
   resetContainer: {
     alignSelf: 'stretch',

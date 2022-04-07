@@ -12,6 +12,7 @@ module.exports = {
         'no-undef': 'off',
         'prefer-const': 'warn',
         'spaced-comment': 'warn',
+        'no-console': 'warn',
       },
     },
   ],
