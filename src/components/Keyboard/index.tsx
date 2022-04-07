@@ -12,9 +12,7 @@ const kb = [
 ];
 
 const Keyboard: React.FC = () => {
-  //TODO Remove selectedBox dependency
-  const { selectedBox, setSelectedBox, updateBoxValue, nextRow } =
-    useContext(GridContext);
+  const { updateBoxValue, nextRow, nextBox, prevBox } = useContext(GridContext);
 
   return (
     <View style={styles.container}>
@@ -23,23 +21,18 @@ const Keyboard: React.FC = () => {
           {row.map(key => (
             <TouchableHighlight
               onPress={() => {
-                //if the length is 1, it's a letter
+                // if the length is 1, it's a letter
                 if (key.length === 1) {
-                  updateBoxValue(selectedBox, key);
-                  if (selectedBox % 5 < 4) {
-                    setSelectedBox(prev => prev + 1);
-                  }
+                  // update the value of the selected box and go to the next one
+                  updateBoxValue(key);
+                  nextBox();
                 } else if (key === 'del') {
-                  updateBoxValue(selectedBox, '');
-                  if (selectedBox % 5 > 0) {
-                    setSelectedBox(prev => prev - 1);
-                  }
+                  // clear the value of the selected box and go back to prev one
+                  updateBoxValue('');
+                  prevBox();
                 } else if (key === 'enter') {
-                  // toggling availability for all items in the row after enter in pressed
-                  const gridRowIndex = Math.floor(selectedBox / 5);
-                  nextRow(gridRowIndex);
-                  const nextSelected = gridRowIndex * 5 + 5;
-                  setSelectedBox(nextSelected);
+                  // when enter is pressed, go to the next row
+                  nextRow();
                 }
               }}
               style={styles.letterContainer}
