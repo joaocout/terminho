@@ -8,7 +8,7 @@ import Box from '../Box';
 
 import type { isBoxValueCorrect } from '../../shared/types';
 
-const CORRECT_WORD = 'termo';
+const CORRECT_WORD = 'palha';
 
 const result: Array<Array<isBoxValueCorrect>> = Array(6)
   .fill(0)
@@ -36,6 +36,7 @@ const Grid: React.FC = () => {
     if (expectedWord[i] !== '-') {
       if (expectedWord.includes(char)) {
         result[selectedRow][i] = 'almost';
+        expectedWord[expectedWord.indexOf(char)] = '-';
       } else {
         result[selectedRow][i] = 'wrong';
       }
