@@ -17,14 +17,14 @@ const result: Array<Array<isBoxValueCorrect>> = Array(6)
 const Grid: React.FC = () => {
   const { grid, selectedBox, setSelectedBox } = useContext(GridContext);
 
-  const selectedRow = Math.floor(selectedBox / 5);
+  const selectedRowIndex = Math.min(Math.floor(selectedBox / 5), 4);
   const expectedWord = CORRECT_WORD.toLowerCase().split('');
-  const typedWord = grid[selectedRow].map((item) => item.value);
+  const typedWord = grid[selectedRowIndex].map((item) => item.value);
 
   // checking for correct boxes
   typedWord.forEach((char, i) => {
     if (char === expectedWord[i]) {
-      result[selectedRow][i] = 'correct';
+      result[selectedRowIndex][i] = 'correct';
       // removing correct chars and marking positions with a '-'
       expectedWord[i] = '-';
     }
@@ -35,10 +35,10 @@ const Grid: React.FC = () => {
     // if not marked by loop above
     if (expectedWord[i] !== '-') {
       if (expectedWord.includes(char)) {
-        result[selectedRow][i] = 'almost';
+        result[selectedRowIndex][i] = 'almost';
         expectedWord[expectedWord.indexOf(char)] = '-';
       } else {
-        result[selectedRow][i] = 'wrong';
+        result[selectedRowIndex][i] = 'wrong';
       }
     }
   });

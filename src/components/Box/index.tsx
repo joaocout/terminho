@@ -92,10 +92,9 @@ const Box: React.FC<BoxProps> = React.memo(
 
     return (
       <Pressable
+        disabled={!box.available}
         onPress={() => {
-          if (!isSelected && box.available) {
-            onSelectedBoxChange(index);
-          }
+          onSelectedBoxChange(index);
         }}>
         <View style={styles.textContainer}>
           <Animated.View

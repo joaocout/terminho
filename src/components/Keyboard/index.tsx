@@ -53,7 +53,7 @@ type KeyProps = {
   keyPressed: string;
 };
 
-// TODO Move this to its own files
+// TODO Move this to its own file
 const Key: React.FC<KeyProps> = ({ onPress, keyPressed: key }) => {
   // scale animation for key
   const scaleSV = useSharedValue(1);
