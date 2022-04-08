@@ -13,23 +13,22 @@ import { styles } from './styles';
 
 import { COLORS, BOTTOM_BORDER_WIDTH_DEFAULT } from '../../shared/constants';
 
-import type { GridBox } from '../../shared/types';
-
-const CORRECT_WORD = 'termo';
+import type { GridBox, isBoxValueCorrect } from '../../shared/types';
 
 export type BoxProps = {
   index: number;
   isSelected: boolean;
   box: GridBox;
   onSelectedBoxChange: (selectedBox: number) => void;
+  isCorrect: isBoxValueCorrect;
 };
 
 const Box: React.FC<BoxProps> = React.memo(
-  ({ index, isSelected, box, onSelectedBoxChange }) => {
+  ({ index, isSelected, box, onSelectedBoxChange, isCorrect }) => {
     const answeredColor =
-      box.value === CORRECT_WORD[index % 5].toLowerCase()
+      isCorrect === 'correct'
         ? 'green'
-        : CORRECT_WORD.toLocaleLowerCase().includes(box.value)
+        : isCorrect === 'almost'
         ? 'goldenrod'
         : COLORS.DARKER_ACCENT;
 
