@@ -14,7 +14,7 @@ const result: Array<Array<isBoxValueCorrect>> = Array(6)
   .fill(0)
   .map(() => Array(5).fill('wrong'));
 
-const Grid: React.FC = () => {
+const Grid = () => {
   const { grid, selectedBox, setSelectedBox } = useContext(GridContext);
 
   const selectedRowIndex = Math.min(Math.floor(selectedBox / 5), 4);

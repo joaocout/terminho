@@ -17,7 +17,7 @@ const kb = [
   ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'enter'],
 ];
 
-const Keyboard: React.FC = () => {
+const Keyboard = () => {
   const { updateBoxValue, nextRow, nextBox, prevBox } = useContext(GridContext);
 
   const onPress = (key: string) => {

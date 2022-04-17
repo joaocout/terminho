@@ -7,7 +7,7 @@ import Keyboard from '../../components/Keyboard';
 import Grid from '../../components/Grid';
 import { GridContext } from '../../shared/context';
 
-const RNTermooo: React.FC = () => {
+const RNTermooo = () => {
   const { reset } = useContext(GridContext);
 
   return (
