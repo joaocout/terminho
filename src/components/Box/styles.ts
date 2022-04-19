@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-import { COLORS, BOTTOM_BORDER_WIDTH_DEFAULT } from '../../shared/constants';
+import { COLORS, DEFAULT_BORDER_WIDTH } from '../../shared/constants';
 
 export const styles = StyleSheet.create({
   container: {
     height: 55,
     width: 55,
     borderColor: COLORS.ACCENT,
-    borderWidth: BOTTOM_BORDER_WIDTH_DEFAULT,
+    borderWidth: DEFAULT_BORDER_WIDTH,
     margin: 2,
     borderRadius: 6,
     alignItems: 'center',

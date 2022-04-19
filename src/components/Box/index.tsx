@@ -11,7 +11,7 @@ import Animated, {
 
 import { styles } from './styles';
 
-import { COLORS, BOTTOM_BORDER_WIDTH_DEFAULT } from '../../shared/constants';
+import { COLORS, DEFAULT_BORDER_WIDTH } from '../../shared/constants';
 
 import type { GridBox, isBoxValueCorrect } from '../../shared/types';
 
@@ -78,7 +78,7 @@ const Box: React.FC<BoxProps> = React.memo(
       } else if (!box.available && !box.value.length) {
         return 0;
       }
-      return BOTTOM_BORDER_WIDTH_DEFAULT;
+      return DEFAULT_BORDER_WIDTH;
     }, [box.available, box.value]);
 
     const animatedStyle = useAnimatedStyle(() => ({

@@ -14,7 +14,6 @@ type KeyProps = {
   keyPressed: string;
 };
 
-// TODO Move this to its own file
 const Key: React.FC<KeyProps> = React.memo(({ onPress, keyPressed: key }) => {
   // scale animation for key
   const scaleSV = useSharedValue(1);
