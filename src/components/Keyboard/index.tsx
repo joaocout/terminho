@@ -1,15 +1,11 @@
-import React, { useContext } from 'react';
-import { View, Text, Pressable } from 'react-native';
-import Animated, {
-  cancelAnimation,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import React, { useCallback, useContext } from 'react';
+import { View } from 'react-native';
 
 import { styles } from './styles';
 
-import { GridContext } from '../../shared/context';
+import Key from '../Key';
+
+import { GridContext, Actions } from '../../shared/context';
 
 const kb = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
@@ -17,23 +13,26 @@ const kb = [
   ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'enter'],
 ];
 
-const Keyboard = () => {
-  const { updateBoxValue, nextRow, nextBox, prevBox } = useContext(GridContext);
+const Keyboard = React.memo(() => {
+  const { dispatch } = useContext(GridContext);
 
-  const onPress = (key: string) => {
-    if (key.length === 1) {
-      // update the value of the selected box and go to the next one
-      updateBoxValue(key);
-      nextBox();
-    } else if (key === 'del') {
-      // clear the value of the selected box and go back to prev one
-      updateBoxValue('');
-      prevBox();
-    } else if (key === 'enter') {
-      // when enter is pressed, go to the next row
-      nextRow();
-    }
-  };
+  const onPress = useCallback(
+    (key: string) => {
+      if (key.length === 1) {
+        // update the value of the selected box and go to the next one
+        dispatch({ type: Actions.SET_BOX_VALUE, payload: key });
+        dispatch({ type: Actions.NEXT_BOX });
+      } else if (key === 'del') {
+        // clear the value of the selected box and go back to prev one
+        dispatch({ type: Actions.SET_BOX_VALUE, payload: '' });
+        dispatch({ type: Actions.PREV_BOX });
+      } else if (key === 'enter') {
+        // when enter is pressed, go to the next row
+        dispatch({ type: Actions.NEXT_ROW });
+      }
+    },
+    [dispatch],
+  );
 
   return (
     <View style={styles.container}>
@@ -46,36 +45,6 @@ const Keyboard = () => {
       ))}
     </View>
   );
-};
-
-type KeyProps = {
-  onPress: (key: string) => void;
-  keyPressed: string;
-};
-
-// TODO Move this to its own file
-const Key: React.FC<KeyProps> = ({ onPress, keyPressed: key }) => {
-  // scale animation for key
-  const scaleSV = useSharedValue(1);
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scaleSV.value }],
-  }));
-
-  return (
-    <Pressable
-      onPressIn={() => {
-        scaleSV.value = withTiming(1.3, { duration: 40 });
-      }}
-      onPressOut={() => {
-        cancelAnimation(scaleSV);
-        scaleSV.value = 1;
-      }}
-      onPress={() => onPress(key)}>
-      <Animated.View style={[styles.letterContainer, animatedStyle]}>
-        <Text style={styles.letterText}>{key}</Text>
-      </Animated.View>
-    </Pressable>
-  );
-};
+});
 
 export default Keyboard;

@@ -3,19 +3,19 @@ import { View } from 'react-native';
 
 import { styles } from './styles';
 
-import { GridContext } from '../../shared/context';
+import { GridContext, Actions } from '../../shared/context';
 import Box from '../Box';
 
 import type { isBoxValueCorrect } from '../../shared/types';
 
-const CORRECT_WORD = 'palha';
+const CORRECT_WORD = 'termo';
 
 const result: Array<Array<isBoxValueCorrect>> = Array(6)
   .fill(0)
   .map(() => Array(5).fill('wrong'));
 
 const Grid = () => {
-  const { grid, selectedBox, setSelectedBox } = useContext(GridContext);
+  const { grid, selectedBox, dispatch } = useContext(GridContext);
 
   const selectedRowIndex = Math.min(Math.floor(selectedBox / 5), 4);
   const expectedWord = CORRECT_WORD.toLowerCase().split('');
@@ -45,9 +45,9 @@ const Grid = () => {
 
   const onSelectedBoxChange = useCallback(
     (selected) => {
-      setSelectedBox(selected);
+      dispatch({ type: Actions.SET_SELECTED, payload: selected });
     },
-    [setSelectedBox],
+    [dispatch],
   );
 
   return (

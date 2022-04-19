@@ -5,14 +5,16 @@ import { styles } from './styles';
 
 import Keyboard from '../../components/Keyboard';
 import Grid from '../../components/Grid';
-import { GridContext } from '../../shared/context';
+import { GridContext, Actions } from '../../shared/context';
 
 const RNTermooo = () => {
-  const { reset } = useContext(GridContext);
+  const { dispatch } = useContext(GridContext);
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.resetContainer} onPress={() => reset()}>
+      <TouchableOpacity
+        style={styles.resetContainer}
+        onPress={() => dispatch({ type: Actions.RESET })}>
         <Text style={styles.resetText}>reset</Text>
       </TouchableOpacity>
       <Text style={styles.title}>terminho</Text>
