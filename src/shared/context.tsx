@@ -2,6 +2,9 @@ import React, { createContext, useReducer } from 'react';
 
 import type { GridBox } from '../shared/types';
 
+// TODO refactor in this file
+// move reducer and actions to other files
+
 type GridContextParams = {
   selectedBox: number;
   grid: GridBox[][];
