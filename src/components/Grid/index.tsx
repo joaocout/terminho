@@ -3,17 +3,51 @@ import { View } from 'react-native';
 
 import { styles } from './styles';
 
-import { GridContext } from '../../shared/context';
+import { GridContext, Actions } from '../../shared/context';
 import Box from '../Box';
 
-const Grid: React.FC = () => {
-  const { grid, selectedBox, setSelectedBox } = useContext(GridContext);
+import type { isBoxValueCorrect } from '../../shared/types';
+
+const CORRECT_WORD = 'termo';
+
+const result: Array<Array<isBoxValueCorrect>> = Array(6)
+  .fill(0)
+  .map(() => Array(5).fill('wrong'));
+
+const Grid = () => {
+  const { grid, selectedBox, dispatch } = useContext(GridContext);
+
+  const selectedRowIndex = Math.min(Math.floor(selectedBox / 5), 4);
+  const expectedWord = CORRECT_WORD.toLowerCase().split('');
+  const typedWord = grid[selectedRowIndex].map((item) => item.value);
+
+  // checking for correct boxes
+  typedWord.forEach((char, i) => {
+    if (char === expectedWord[i]) {
+      result[selectedRowIndex][i] = 'correct';
+      // removing correct chars and marking positions with a '-'
+      expectedWord[i] = '-';
+    }
+  });
+
+  // checking for wrong and almost
+  typedWord.forEach((char, i) => {
+    // if not marked by loop above
+    if (expectedWord[i] !== '-') {
+      if (expectedWord.includes(char)) {
+        result[selectedRowIndex][i] = 'almost';
+        expectedWord[expectedWord.indexOf(char)] = '-';
+      } else {
+        result[selectedRowIndex][i] = 'wrong';
+      }
+    }
+  });
 
   const onSelectedBoxChange = useCallback(
-    selected => {
-      setSelectedBox(selected);
+    (selected) => {
+      dispatch({ type: Actions.SET_SELECTED, payload: selected });
     },
-    [setSelectedBox],
+    [dispatch],
   );
 
   return (
@@ -29,6 +63,7 @@ const Grid: React.FC = () => {
                 isSelected={selectedBox === index}
                 box={box}
                 onSelectedBoxChange={onSelectedBoxChange}
+                isCorrect={result[rowIndex][columnIndex]}
               />
             );
           })}

@@ -1,17 +1,28 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
 
 import type { GridBox } from '../shared/types';
 
-export type GridContextParams = {
+type GridContextParams = {
   selectedBox: number;
   grid: GridBox[][];
-  setSelectedBox: React.Dispatch<React.SetStateAction<number>>;
-  updateBoxValue: (boxIndex: number, newValue: string) => void;
-  nextRow: (rowIndex: number) => void;
-  reset: () => void;
+  dispatch: React.Dispatch<Action>;
 };
 
-const initialState: Array<Array<GridBox>> = Array(6)
+export enum Actions {
+  SET_BOX_VALUE = 'SET_BOX_VALUE',
+  SET_SELECTED = 'SET_SELECTED',
+  NEXT_ROW = 'NEXT_ROW',
+  NEXT_BOX = 'NEXT_BOX',
+  PREV_BOX = 'PREV_BOX',
+  RESET = 'RESET',
+}
+
+type Action = {
+  type: Actions;
+  payload?: string | number;
+};
+
+const initialGrid: Array<Array<GridBox>> = Array(6)
   .fill(Array(5).fill({ available: false, value: '' }))
   .map((item, index) => {
     if (index === 0) {
@@ -22,51 +33,94 @@ const initialState: Array<Array<GridBox>> = Array(6)
     return item;
   });
 
+type State = {
+  selectedBox: number;
+  grid: Array<Array<GridBox>>;
+};
+
+const initialState: State = {
+  selectedBox: 0,
+  grid: initialGrid,
+};
+
+const reducer = (prevState: State, action: Action): State => {
+  const { type, payload } = action;
+  const { selectedBox, grid } = prevState;
+
+  switch (type) {
+    case Actions.SET_BOX_VALUE: {
+      const newGrid = grid.map((row, rowIndex) =>
+        row.map((box, columnIndex) => {
+          if (selectedBox === rowIndex * 5 + columnIndex) {
+            if (typeof payload === 'string') {
+              return { ...box, value: payload };
+            }
+            return box;
+          }
+          return box;
+        }),
+      );
+      return { ...prevState, grid: newGrid };
+    }
+
+    case Actions.SET_SELECTED: {
+      if (typeof payload === 'number') {
+        return { ...prevState, selectedBox: payload };
+      }
+      return prevState;
+    }
+
+    case Actions.NEXT_ROW: {
+      const selectedRowIndex = Math.min(Math.floor(selectedBox / 5), 4);
+      const typedWord = grid[selectedRowIndex]
+        .map((item) => item.value)
+        .join('');
+
+      if (typedWord.length === 5) {
+        const newGrid = grid.map((row, rowIndex) => {
+          if (rowIndex === selectedRowIndex) {
+            return row.map((box) => ({ ...box, available: false }));
+          }
+          if (rowIndex === selectedRowIndex + 1) {
+            return row.map((box) => ({ ...box, available: true }));
+          }
+          return row;
+        });
+        return { selectedBox: (selectedRowIndex + 1) * 5, grid: newGrid };
+      }
+
+      return prevState;
+    }
+
+    case Actions.NEXT_BOX: {
+      if (selectedBox % 5 < 4) {
+        return { ...prevState, selectedBox: selectedBox + 1 };
+      }
+      return prevState;
+    }
+
+    case Actions.PREV_BOX: {
+      if (selectedBox % 5 > 0) {
+        return { ...prevState, selectedBox: selectedBox - 1 };
+      }
+      return prevState;
+    }
+
+    case Actions.RESET: {
+      return initialState;
+    }
+
+    default: {
+      return prevState;
+    }
+  }
+};
+
 const Store: React.FC = ({ children }) => {
-  const [selectedBox, setSelectedBox] = useState(0);
-  const [grid, setGrid] = useState(initialState);
-
-  const nextRow = (rowIndex: number) => {
-    const newGrid = grid.map((row, oldRowIndex) => {
-      if (rowIndex === oldRowIndex) {
-        return row.map(box => ({ ...box, available: false }));
-      }
-      if (rowIndex + 1 === oldRowIndex) {
-        return row.map(box => ({ ...box, available: true }));
-      }
-
-      return row;
-    });
-    setGrid(newGrid);
-  };
-
-  const updateBoxValue = (boxIndex: number, newValue: string) => {
-    const newGrid = grid.map((row, rowIndex) =>
-      row.map((oldBox, columnIndex) => {
-        if (rowIndex * 5 + columnIndex === boxIndex) {
-          return { ...oldBox, value: newValue };
-        }
-        return oldBox;
-      }),
-    );
-    setGrid(newGrid);
-  };
-
-  const reset = () => {
-    setGrid(initialState);
-    setSelectedBox(0);
-  };
+  const [{ selectedBox, grid }, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <GridContext.Provider
-      value={{
-        grid,
-        selectedBox,
-        updateBoxValue,
-        setSelectedBox,
-        nextRow,
-        reset,
-      }}>
+    <GridContext.Provider value={{ selectedBox, grid, dispatch }}>
       {children}
     </GridContext.Provider>
   );

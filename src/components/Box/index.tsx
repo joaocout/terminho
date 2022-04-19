@@ -1,34 +1,34 @@
 import React from 'react';
-import { TouchableWithoutFeedback, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useDerivedValue,
   useAnimatedStyle,
   withTiming,
   withSequence,
   withDelay,
+  Easing,
 } from 'react-native-reanimated';
 
 import { styles } from './styles';
 
-import { COLORS } from '../../shared/constants';
+import { COLORS, DEFAULT_BORDER_WIDTH } from '../../shared/constants';
 
-import type { GridBox } from '../../shared/types';
-
-const CORRECT_WORD = 'termo';
+import type { GridBox, isBoxValueCorrect } from '../../shared/types';
 
 export type BoxProps = {
   index: number;
   isSelected: boolean;
   box: GridBox;
   onSelectedBoxChange: (selectedBox: number) => void;
+  isCorrect: isBoxValueCorrect;
 };
 
 const Box: React.FC<BoxProps> = React.memo(
-  ({ index, isSelected, box, onSelectedBoxChange }) => {
+  ({ index, isSelected, box, onSelectedBoxChange, isCorrect }) => {
     const answeredColor =
-      box.value === CORRECT_WORD[index % 5].toLowerCase()
+      isCorrect === 'correct'
         ? 'green'
-        : CORRECT_WORD.toLocaleLowerCase().includes(box.value)
+        : isCorrect === 'almost'
         ? 'goldenrod'
         : COLORS.DARKER_ACCENT;
 
@@ -49,25 +49,52 @@ const Box: React.FC<BoxProps> = React.memo(
       if (!box.available && box.value.length) {
         return withDelay(
           (index % 5) * 200,
-          withTiming(-180, { duration: 500 }),
+          withTiming(-180, { duration: 600, easing: Easing.linear }),
         );
       }
       return 0;
     }, [box.available, index]);
+
+    // background color transition
+    const backgroundColorSV = useDerivedValue(() => {
+      if (!box.available && box.value.length) {
+        return withDelay(
+          (index % 5) * 200 + 300,
+          withTiming(answeredColor, { duration: 0 }),
+        );
+      } else if (!box.available && !box.value.length) {
+        return COLORS.GREY;
+      }
+      return COLORS.WHITE;
+    }, [box.available, box.value]);
+
+    // border width transition
+    const borderWidthSV = useDerivedValue(() => {
+      if (!box.available && box.value.length) {
+        return withDelay(
+          (index % 5) * 200 + 300,
+          withTiming(0, { duration: 0 }),
+        );
+      } else if (!box.available && !box.value.length) {
+        return 0;
+      }
+      return DEFAULT_BORDER_WIDTH;
+    }, [box.available, box.value]);
 
     const animatedStyle = useAnimatedStyle(() => ({
       transform: [
         { scale: scaleSV.value },
         { rotateY: `${rotationYSV.value}deg` },
       ],
+      backgroundColor: backgroundColorSV.value,
+      borderWidth: borderWidthSV.value,
     }));
 
     return (
-      <TouchableWithoutFeedback
+      <Pressable
+        disabled={!box.available}
         onPress={() => {
-          if (!isSelected && box.available) {
-            onSelectedBoxChange(index);
-          }
+          onSelectedBoxChange(index);
         }}>
         <View style={styles.textContainer}>
           <Animated.View
@@ -78,14 +105,7 @@ const Box: React.FC<BoxProps> = React.memo(
                     animatedStyle,
                     isSelected ? { borderColor: COLORS.DARKER_ACCENT } : {},
                   ]
-                : [
-                    styles.container,
-                    animatedStyle,
-                    styles.unavailable,
-                    box.value.length
-                      ? { backgroundColor: answeredColor, borderWidth: 0 }
-                      : {},
-                  ]
+                : [styles.container, animatedStyle]
             }
           />
           <Text
@@ -96,7 +116,7 @@ const Box: React.FC<BoxProps> = React.memo(
             {box.value}
           </Text>
         </View>
-      </TouchableWithoutFeedback>
+      </Pressable>
     );
   },
 );

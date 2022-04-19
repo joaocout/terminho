@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import React, { useCallback, useContext } from 'react';
+import { View } from 'react-native';
 
 import { styles } from './styles';
 
-import { GridContext } from '../../shared/context';
+import Key from '../Key';
+
+import { GridContext, Actions } from '../../shared/context';
 
 const kb = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
@@ -11,46 +13,38 @@ const kb = [
   ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'enter'],
 ];
 
-const Keyboard: React.FC = () => {
-  //TODO Remove selectedBox dependency
-  const { selectedBox, setSelectedBox, updateBoxValue, nextRow } =
-    useContext(GridContext);
+const Keyboard = React.memo(() => {
+  const { dispatch } = useContext(GridContext);
+
+  const onPress = useCallback(
+    (key: string) => {
+      if (key.length === 1) {
+        // update the value of the selected box and go to the next one
+        dispatch({ type: Actions.SET_BOX_VALUE, payload: key });
+        dispatch({ type: Actions.NEXT_BOX });
+      } else if (key === 'del') {
+        // clear the value of the selected box and go back to prev one
+        dispatch({ type: Actions.SET_BOX_VALUE, payload: '' });
+        dispatch({ type: Actions.PREV_BOX });
+      } else if (key === 'enter') {
+        // when enter is pressed, go to the next row
+        dispatch({ type: Actions.NEXT_ROW });
+      }
+    },
+    [dispatch],
+  );
 
   return (
     <View style={styles.container}>
-      {kb.map(row => (
+      {kb.map((row) => (
         <View key={row.join('')} style={styles.row}>
-          {row.map(key => (
-            <TouchableHighlight
-              onPress={() => {
-                //if the length is 1, it's a letter
-                if (key.length === 1) {
-                  updateBoxValue(selectedBox, key);
-                  if (selectedBox % 5 < 4) {
-                    setSelectedBox(prev => prev + 1);
-                  }
-                } else if (key === 'del') {
-                  updateBoxValue(selectedBox, '');
-                  if (selectedBox % 5 > 0) {
-                    setSelectedBox(prev => prev - 1);
-                  }
-                } else if (key === 'enter') {
-                  // toggling availability for all items in the row after enter in pressed
-                  const gridRowIndex = Math.floor(selectedBox / 5);
-                  nextRow(gridRowIndex);
-                  const nextSelected = gridRowIndex * 5 + 5;
-                  setSelectedBox(nextSelected);
-                }
-              }}
-              style={styles.letterContainer}
-              key={key}>
-              <Text style={styles.letterText}>{key}</Text>
-            </TouchableHighlight>
+          {row.map((key) => (
+            <Key key={key} onPress={onPress} keyPressed={key} />
           ))}
         </View>
       ))}
     </View>
   );
-};
+});
 
 export default Keyboard;
