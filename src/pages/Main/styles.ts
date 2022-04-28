@@ -11,16 +11,19 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
     justifyContent: 'space-between',
   },
+
   title: {
     fontWeight: '900',
     fontSize: 20,
     color: COLORS.BLACK,
     marginBottom: 10,
   },
+
   resetText: {
     textAlign: 'right',
     color: 'lightgrey',
   },
+
   resetContainer: {
     alignSelf: 'stretch',
   },
