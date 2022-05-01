@@ -6,6 +6,6 @@ const COLORS = {
   GREY: '#e6e6e6',
 };
 
-const DEFAULT_BORDER_WIDTH = 4;
+const DEFAULT_BORDER_WIDTH = 5;
 
 export { COLORS, DEFAULT_BORDER_WIDTH };
