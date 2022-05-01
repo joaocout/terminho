@@ -13,10 +13,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   textContainer: {
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   text: {
     position: 'absolute',
     fontWeight: '900',
