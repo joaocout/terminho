@@ -30,7 +30,7 @@ const Box: React.FC<BoxProps> = React.memo(
         ? 'green'
         : isCorrect === 'almost'
         ? 'goldenrod'
-        : COLORS.DARKER_ACCENT;
+        : COLORS.DARK;
 
     // scale animation
     const scaleSV = useDerivedValue(() => {
@@ -63,9 +63,9 @@ const Box: React.FC<BoxProps> = React.memo(
           withTiming(answeredColor, { duration: 0 }),
         );
       } else if (!box.available && !box.value.length) {
-        return COLORS.GREY;
+        return COLORS.BASE;
       }
-      return COLORS.WHITE;
+      return undefined;
     }, [box.available, box.value]);
 
     // border width transition
@@ -103,7 +103,7 @@ const Box: React.FC<BoxProps> = React.memo(
                 ? [
                     styles.container,
                     animatedStyle,
-                    isSelected ? { borderColor: COLORS.DARKER_ACCENT } : {},
+                    isSelected ? { borderColor: COLORS.DARK } : {},
                   ]
                 : [styles.container, animatedStyle]
             }
