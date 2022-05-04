@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingHorizontal: 5,
-    backgroundColor: COLORS.LIGHT,
+    backgroundColor: COLORS.PRIMARY,
     paddingBottom: 10,
     justifyContent: 'space-between',
   },
@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
   title: {
     fontWeight: '900',
     fontSize: 20,
-    color: COLORS.WHITE,
+    color: COLORS.ACCENT,
     marginBottom: 10,
   },
 

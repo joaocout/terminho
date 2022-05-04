@@ -1,10 +1,9 @@
 const COLORS = {
-  BASE: '#534483',
-  ACCENT: '#34275E',
-  DARK: '#150E2D',
-  LIGHT: '#796AAB',
-  LIGHTER: '#BAB2D5',
-  WHITE: 'white',
+  PRIMARY: '#EFF1F3',
+  SECONDARY: '#DBD3D8',
+  ACCENT: '#223843',
+  BLACK: '#000',
+  WHITE: '#FFF',
 };
 
 const DEFAULT_BORDER_WIDTH = 5;

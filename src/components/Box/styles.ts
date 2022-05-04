@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   container: {
     height: 55,
     width: 55,
-    borderColor: COLORS.BASE,
+    borderColor: COLORS.SECONDARY,
     borderWidth: DEFAULT_BORDER_WIDTH,
     margin: 2,
     borderRadius: 6,
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
   text: {
     position: 'absolute',
     fontWeight: '900',
-    color: COLORS.WHITE,
+    color: COLORS.BLACK,
     textTransform: 'uppercase',
     fontSize: 32,
   },
