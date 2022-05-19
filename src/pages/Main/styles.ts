@@ -9,7 +9,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 5,
     backgroundColor: COLORS.PRIMARY,
     paddingBottom: 10,
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
+  },
+
+  gridContainer: {
+    alignItems: 'center',
   },
 
   title: {
@@ -17,14 +21,5 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     color: COLORS.ACCENT,
     marginBottom: 10,
-  },
-
-  resetText: {
-    textAlign: 'right',
-    color: 'lightgrey',
-  },
-
-  resetContainer: {
-    alignSelf: 'stretch',
   },
 });
