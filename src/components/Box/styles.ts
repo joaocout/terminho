@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   container: {
     height: 55,
     width: 55,
-    borderColor: COLORS.ACCENT,
+    borderColor: COLORS.SECONDARY,
     borderWidth: DEFAULT_BORDER_WIDTH,
     margin: 2,
     borderRadius: 6,
