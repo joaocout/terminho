@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import React from "react";
+import { Pressable, Text, View } from "react-native";
 import Animated, {
   useDerivedValue,
   useAnimatedStyle,
@@ -7,13 +7,13 @@ import Animated, {
   withSequence,
   withDelay,
   Easing,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
-import { styles } from './styles';
+import { styles } from "./styles";
 
-import { COLORS, DEFAULT_BORDER_WIDTH } from '../../shared/constants';
+import { COLORS, DEFAULT_BORDER_WIDTH } from "../../shared/constants";
 
-import type { GridBox, isBoxValueCorrect } from '../../shared/types';
+import type { GridBox, isBoxValueCorrect } from "../../shared/types";
 
 export type BoxProps = {
   index: number;
@@ -23,14 +23,15 @@ export type BoxProps = {
   isCorrect: isBoxValueCorrect;
 };
 
+const correctColorMap = {
+  correct: "green",
+  almost: "goldenrod",
+  wrong: COLORS.ACCENT,
+};
+
 const Box: React.FC<BoxProps> = React.memo(
-  ({ index, isSelected, box, onSelectedBoxChange, isCorrect }) => {
-    const answeredColor =
-      isCorrect === 'correct'
-        ? 'green'
-        : isCorrect === 'almost'
-        ? 'goldenrod'
-        : COLORS.ACCENT;
+  ({ index, isSelected, box, onSelectedBoxChange, isCorrect }: BoxProps) => {
+    const answeredColor = correctColorMap[isCorrect];
 
     // scale animation
     const scaleSV = useDerivedValue(() => {
@@ -38,7 +39,7 @@ const Box: React.FC<BoxProps> = React.memo(
         return withSequence(
           withTiming(1, { duration: 0 }),
           withTiming(1.15, { duration: 70 }),
-          withTiming(1, { duration: 70 }),
+          withTiming(1, { duration: 70 })
         );
       }
       return 1;
@@ -49,7 +50,7 @@ const Box: React.FC<BoxProps> = React.memo(
       if (!box.available && box.value.length) {
         return withDelay(
           (index % 5) * 200,
-          withTiming(-180, { duration: 600, easing: Easing.linear }),
+          withTiming(-180, { duration: 600, easing: Easing.linear })
         );
       }
       return 0;
@@ -60,9 +61,10 @@ const Box: React.FC<BoxProps> = React.memo(
       if (!box.available && box.value.length) {
         return withDelay(
           (index % 5) * 200 + 300,
-          withTiming(answeredColor, { duration: 0 }),
+          withTiming(answeredColor, { duration: 0 })
         );
-      } else if (!box.available && !box.value.length) {
+      }
+      if (!box.available && !box.value.length) {
         return COLORS.SECONDARY;
       }
       return undefined;
@@ -73,9 +75,10 @@ const Box: React.FC<BoxProps> = React.memo(
       if (!box.available && box.value.length) {
         return withDelay(
           (index % 5) * 200 + 300,
-          withTiming(0, { duration: 0 }),
+          withTiming(0, { duration: 0 })
         );
-      } else if (!box.available && !box.value.length) {
+      }
+      if (!box.available && !box.value.length) {
         return 0;
       }
       return DEFAULT_BORDER_WIDTH;
@@ -95,7 +98,8 @@ const Box: React.FC<BoxProps> = React.memo(
         disabled={!box.available}
         onPress={() => {
           onSelectedBoxChange(index);
-        }}>
+        }}
+      >
         <View style={styles.textContainer}>
           <Animated.View
             style={
@@ -112,12 +116,13 @@ const Box: React.FC<BoxProps> = React.memo(
             style={[
               styles.text,
               !box.available ? { color: COLORS.PRIMARY } : {},
-            ]}>
+            ]}
+          >
             {box.value}
           </Text>
         </View>
       </Pressable>
     );
-  },
+  }
 );
 export default Box;

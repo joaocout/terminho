@@ -1,12 +1,12 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React from "react";
+import { Text, View } from "react-native";
 
-import { styles } from './styles';
+import { styles } from "./styles";
 
-import Keyboard from '../../components/Keyboard';
-import Grid from '../../components/Grid';
+import Keyboard from "../../components/Keyboard";
+import Grid from "../../components/Grid";
 
-const RNTermooo = () => {
+function RNTermooo() {
   return (
     <View style={styles.container}>
       <View style={styles.gridContainer}>
@@ -16,6 +16,6 @@ const RNTermooo = () => {
       <Keyboard />
     </View>
   );
-};
+}
 
 export default RNTermooo;
