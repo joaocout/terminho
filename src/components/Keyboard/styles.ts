@@ -1,11 +1,27 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-  },
+  container: {},
 
   row: {
     flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'center',
+  },
+
+  keyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: 'lightgray',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginVertical: 5,
+    marginHorizontal: 2,
+    padding: 6,
+  },
+
+  keyText: {
+    fontSize: 24,
+    color: 'black',
   },
 });

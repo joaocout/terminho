@@ -1,5 +1,5 @@
 {
-  "name": "expo-termo",
+  "name": "expo-termooo",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
@@ -8,29 +8,26 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~47.0.6",
-    "expo-status-bar": "~1.4.2",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "react-native": "0.70.5",
-    "react-native-reanimated": "~2.12.0",
-    "react-native-web": "~0.18.9"
+    "expo": "~48.0.4",
+    "expo-status-bar": "~1.4.4",
+    "jotai": "^2.0.2",
+    "react": "18.2.0",
+    "react-native": "0.71.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "^7.20.0",
     "@types/react": "~18.0.14",
-    "@types/react-native": "~0.70.6",
-    "@typescript-eslint/eslint-plugin": "^5.43.0",
-    "@typescript-eslint/parser": "^5.43.0",
-    "eslint": "^7.32.0 || ^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "eslint": "^8.34.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "2.7.1",
-    "typescript": "^4.9.3"
+    "prettier": "2.8.4",
+    "typescript": "^4.9.5"
   },
   "private": true
 }

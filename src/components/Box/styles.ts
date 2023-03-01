@@ -1,29 +1,19 @@
 import { StyleSheet } from 'react-native';
 
-import { COLORS, DEFAULT_BORDER_WIDTH } from '../../shared/constants';
-
 export const styles = StyleSheet.create({
   container: {
-    height: 55,
-    width: 55,
-    borderColor: COLORS.SECONDARY,
-    borderWidth: DEFAULT_BORDER_WIDTH,
-    margin: 2,
-    borderRadius: 6,
-    alignItems: 'center',
     justifyContent: 'center',
-  },
-
-  textContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
+    borderColor: 'lightgray',
+    borderWidth: 3,
+    borderRadius: 4,
+    margin: 3,
+    aspectRatio: 1,
+    backgroundColor: 'white',
   },
 
   text: {
-    position: 'absolute',
-    fontWeight: '900',
-    color: COLORS.BLACK,
-    textTransform: 'uppercase',
-    fontSize: 32,
+    fontSize: 24,
+    fontWeight: '500',
   },
 });

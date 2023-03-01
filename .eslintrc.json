@@ -6,6 +6,7 @@
     "plugin:react/recommended",
     "airbnb",
     "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -15,10 +16,12 @@
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint"],
-  "root": true,
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
-    "import/no-unresolved": 0,
-    "import/extensions": 0
-  }
+    "func-names": "off",
+    "import/extensions": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
+    "import/prefer-default-export": "off",
+    "no-nested-ternary": "off"
+  },
+  "root": true
 }

@@ -1,7 +1,9 @@
-// grid box state
-export type GridBox = {
+export type BoxCorrectness = 'correct' | 'almost' | 'wrong';
+
+export interface IBox {
   available: boolean;
   value: string;
-};
+  correctness: BoxCorrectness;
+}
 
-export type isBoxValueCorrect = 'correct' | 'wrong' | 'almost';
+export type IGrid = Array<Array<IBox>>;

@@ -1,11 +1,10 @@
-import React from "react";
+import React from 'react';
+import { registerRootComponent } from 'expo';
 
-import { registerRootComponent } from "expo";
-
-import Terminho from "./src";
+import Entry from './src/pages';
 
 function App() {
-  return <Terminho />;
+  return <Entry />;
 }
 
 registerRootComponent(App);

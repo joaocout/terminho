@@ -1,21 +1,16 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React from 'react';
+import { View } from 'react-native';
 
-import { styles } from "./styles";
+import { styles } from './styles';
 
-import Keyboard from "../../components/Keyboard";
-import Grid from "../../components/Grid";
+import Grid from '../../components/Grid';
+import Keyboard from '../../components/Keyboard';
 
-function RNTermooo() {
+export default function Main() {
   return (
     <View style={styles.container}>
-      <View style={styles.gridContainer}>
-        <Text style={styles.title}>terminho</Text>
-        <Grid />
-      </View>
+      <Grid />
       <Keyboard />
     </View>
   );
 }
-
-export default RNTermooo;

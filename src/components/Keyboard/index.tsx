@@ -1,50 +1,60 @@
-import React, { useCallback, useContext } from 'react';
-import { View } from 'react-native';
+import React from 'react';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  useWindowDimensions,
+} from 'react-native';
+import { useSetAtom } from 'jotai';
 
 import { styles } from './styles';
 
-import Key from '../Key';
+import {
+  setBoxValueAtom,
+  nextRowAtom,
+  deleteBoxValueAtom,
+} from '../../shared/atoms';
 
-import { GridContext, Actions } from '../../shared/context';
-
-const kb = [
+const KEYS = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'del'],
   ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'enter'],
 ];
 
-const Keyboard = React.memo(() => {
-  const { dispatch } = useContext(GridContext);
+export default function Keyboard() {
+  const setBoxValue = useSetAtom(setBoxValueAtom);
+  const nextRow = useSetAtom(nextRowAtom);
+  const deleteBoxValue = useSetAtom(deleteBoxValueAtom);
 
-  const onPress = useCallback(
-    (key: string) => {
-      if (key.length === 1) {
-        // update the value of the selected box and go to the next one
-        dispatch({ type: Actions.SET_BOX_VALUE, payload: key });
-        dispatch({ type: Actions.NEXT_BOX });
-      } else if (key === 'del') {
-        // clear the value of the selected box and go back to prev one
-        dispatch({ type: Actions.SET_BOX_VALUE, payload: '' });
-        dispatch({ type: Actions.PREV_BOX });
-      } else if (key === 'enter') {
-        // when enter is pressed, go to the next row
-        dispatch({ type: Actions.NEXT_ROW });
-      }
-    },
-    [dispatch],
-  );
+  const { width: SCREEN_WIDTH } = useWindowDimensions();
+  const KEY_WIDTH = SCREEN_WIDTH / 14;
+
+  const handleKeyboardPress = (keyPressed: string) => {
+    if (keyPressed === 'enter') {
+      nextRow();
+    } else if (keyPressed === 'del') {
+      deleteBoxValue();
+    } else {
+      setBoxValue(keyPressed);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      {kb.map((row) => (
-        <View key={row.join('')} style={styles.row}>
-          {row.map((key) => (
-            <Key key={key} onPress={onPress} keyPressed={key} />
+      {KEYS.map((keyRow) => (
+        <View key={keyRow.join('')} style={styles.row}>
+          {keyRow.map((key) => (
+            <TouchableOpacity
+              key={key}
+              onPress={() => handleKeyboardPress(key)}
+            >
+              <View style={[styles.keyContainer, { minWidth: KEY_WIDTH }]}>
+                <Text style={styles.keyText}>{key}</Text>
+              </View>
+            </TouchableOpacity>
           ))}
         </View>
       ))}
     </View>
   );
-});
-
-export default Keyboard;
+}

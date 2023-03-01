@@ -1,76 +1,34 @@
-import React, { useCallback, useContext } from 'react';
+import React from 'react';
 import { View } from 'react-native';
+import { useAtomValue } from 'jotai';
 
 import { styles } from './styles';
 
-import { GridContext, Actions } from '../../shared/context';
 import Box from '../Box';
 
-import type { isBoxValueCorrect } from '../../shared/types';
+import { gridAtom, columnIAtom, rowIAtom } from '../../shared/atoms';
 
-const CORRECT_WORD = 'termo';
-
-const result: Array<Array<isBoxValueCorrect>> = Array(6)
-  .fill(0)
-  .map(() => Array(5).fill('wrong'));
-
-const Grid = () => {
-  const { grid, selectedBox, dispatch } = useContext(GridContext);
-
-  const selectedRowIndex = Math.min(Math.floor(selectedBox / 5), 4);
-  const expectedWord = CORRECT_WORD.toLowerCase().split('');
-  const typedWord = grid[selectedRowIndex].map((item) => item.value);
-
-  // checking for correct boxes
-  typedWord.forEach((char, i) => {
-    if (char === expectedWord[i]) {
-      result[selectedRowIndex][i] = 'correct';
-      // removing correct chars and marking positions with a '-'
-      expectedWord[i] = '-';
-    }
-  });
-
-  // checking for wrong and almost
-  typedWord.forEach((char, i) => {
-    // if not marked by loop above
-    if (expectedWord[i] !== '-') {
-      if (expectedWord.includes(char)) {
-        result[selectedRowIndex][i] = 'almost';
-        expectedWord[expectedWord.indexOf(char)] = '-';
-      } else {
-        result[selectedRowIndex][i] = 'wrong';
-      }
-    }
-  });
-
-  const onSelectedBoxChange = useCallback(
-    (selected) => {
-      dispatch({ type: Actions.SET_SELECTED, payload: selected });
-    },
-    [dispatch],
-  );
+export default function Grid() {
+  const grid = useAtomValue(gridAtom);
+  const columnI = useAtomValue(columnIAtom);
+  const rowI = useAtomValue(rowIAtom);
 
   return (
-    <View>
+    <View style={styles.container}>
       {grid.map((row, rowIndex) => (
+        // eslint-disable-next-line react/no-array-index-key
         <View key={`${rowIndex}`} style={styles.row}>
-          {row.map((box, columnIndex) => {
-            const index = rowIndex * 5 + columnIndex;
-            return (
-              <Box
-                key={`${columnIndex}`}
-                index={index}
-                isSelected={selectedBox === index}
-                box={box}
-                onSelectedBoxChange={onSelectedBoxChange}
-                isCorrect={result[rowIndex][columnIndex]}
-              />
-            );
-          })}
+          {row.map((box, columnIndex) => (
+            <Box
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${columnIndex}`}
+              box={box}
+              boxIndex={columnIndex}
+              isSelected={rowI === rowIndex && columnI === columnIndex}
+            />
+          ))}
         </View>
       ))}
     </View>
   );
-};
-
-export default Grid;
+}
