@@ -5,34 +5,32 @@ import {
   TouchableWithoutFeedback,
   useWindowDimensions,
 } from 'react-native';
-import { useSetAtom } from 'jotai';
 
 import { styles } from './styles';
 
-import { columnIAtom } from '../../shared/atoms';
+import { COLORS } from '../../shared/constants';
 import type { IBox } from '../../shared/types';
 
 interface IBoxProps {
   box: IBox;
   isSelected: boolean;
   boxIndex: number;
+  onBoxPressed: (boxIndex: number) => void;
 }
 
-function Box({ box, isSelected, boxIndex }: IBoxProps) {
-  const setColumnI = useSetAtom(columnIAtom);
-
+function Box({ box, isSelected, boxIndex, onBoxPressed }: IBoxProps) {
   const { width: SCREEN_WIDTH } = useWindowDimensions();
   const BOX_WIDTH = SCREEN_WIDTH / 7;
 
   const BOX_COLOR =
     box.correctness === 'correct'
-      ? 'limegreen'
+      ? COLORS.GREEN
       : box.correctness === 'almost'
-      ? 'yellow'
-      : 'lightgray';
+      ? COLORS.YELLOW
+      : COLORS.GRAY;
 
   const handleBoxPress = () => {
-    setColumnI(boxIndex);
+    onBoxPressed(boxIndex);
   };
 
   return (
@@ -61,11 +59,4 @@ function Box({ box, isSelected, boxIndex }: IBoxProps) {
   );
 }
 
-function shouldBoxUpdate(prevBox: IBoxProps, nextBox: IBoxProps) {
-  if (prevBox.isSelected !== nextBox.isSelected) return false;
-  if (JSON.stringify(prevBox.box) !== JSON.stringify(nextBox.box)) return false;
-
-  return true;
-}
-
-export default React.memo(Box, shouldBoxUpdate);
+export default React.memo(Box);

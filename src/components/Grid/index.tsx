@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useAtom } from 'jotai';
 
 import { styles } from './styles';
 
@@ -9,9 +9,13 @@ import Box from '../Box';
 import { gridAtom, columnIAtom, rowIAtom } from '../../shared/atoms';
 
 export default function Grid() {
+  const [columnI, setColumnI] = useAtom(columnIAtom);
   const grid = useAtomValue(gridAtom);
-  const columnI = useAtomValue(columnIAtom);
   const rowI = useAtomValue(rowIAtom);
+
+  const handleBoxPressed = useCallback((boxIndex: number) => {
+    setColumnI(boxIndex);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -25,6 +29,7 @@ export default function Grid() {
               box={box}
               boxIndex={columnIndex}
               isSelected={rowI === rowIndex && columnI === columnIndex}
+              onBoxPressed={handleBoxPressed}
             />
           ))}
         </View>

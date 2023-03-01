@@ -1,10 +1,12 @@
 import { StyleSheet } from 'react-native';
 
+import { COLORS } from '../../shared/constants';
+
 export const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'lightgray',
+    borderColor: COLORS.GRAY,
     borderWidth: 3,
     borderRadius: 4,
     margin: 3,

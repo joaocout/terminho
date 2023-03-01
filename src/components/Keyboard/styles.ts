@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { COLORS } from '../../shared/constants';
+
 export const styles = StyleSheet.create({
   container: {},
 
@@ -12,7 +14,7 @@ export const styles = StyleSheet.create({
   keyContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: 'lightgray',
+    borderColor: COLORS.GRAY,
     borderWidth: 1,
     borderRadius: 5,
     marginVertical: 5,
