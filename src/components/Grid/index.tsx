@@ -13,7 +13,7 @@ export default function Grid() {
   const grid = useAtomValue(gridAtom);
   const rowI = useAtomValue(rowIAtom);
 
-  const handleBoxPressed = useCallback((boxIndex: number) => {
+  const handleBoxPress = useCallback((boxIndex: number) => {
     setColumnI(boxIndex);
   }, []);
 
@@ -29,7 +29,7 @@ export default function Grid() {
               box={box}
               boxIndex={columnIndex}
               isSelected={rowI === rowIndex && columnI === columnIndex}
-              onBoxPressed={handleBoxPressed}
+              onBoxPress={handleBoxPress}
             />
           ))}
         </View>

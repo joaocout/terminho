@@ -4,18 +4,17 @@ import { COLORS } from '../../shared/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     borderColor: COLORS.GRAY,
-    borderWidth: 2,
-    borderRadius: 2,
-    margin: 3,
-    aspectRatio: 1,
-    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 4,
+    marginVertical: 4,
+    marginHorizontal: 2,
   },
 
   text: {
-    fontSize: 24,
-    fontWeight: '500',
+    fontSize: 20,
+    color: 'black',
   },
 });

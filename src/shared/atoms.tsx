@@ -20,7 +20,7 @@ const initialGrid: IGrid = Array<IBox[]>(6)
     });
   });
 
-const CORRECT_WORD = 'palha';
+const CORRECT_WORD = 'macro';
 
 export const rowIAtom = atom(0); // selected row index
 export const columnIAtom = atom(0); // selected column index
@@ -33,10 +33,6 @@ export const nextRowAtom = atom(null, (get, set) => {
 
   // if any box in the current row is still empty, dont go to next row
   if (grid[selectedRowIndex].some((item) => item.value === '')) return;
-
-  // all letters are correct
-  if (grid[selectedRowIndex].every((item) => item.correctness === 'correct'))
-    return;
 
   // checking for correct, almost and wrong
   const typedWord = grid[selectedRowIndex].map((item) => item.value);
@@ -70,6 +66,11 @@ export const nextRowAtom = atom(null, (get, set) => {
     }
     return row;
   });
+
+  // all letters are correct
+  if (newGrid[selectedRowIndex].every((box) => box.correctness === 'correct')) {
+    // won the game
+  }
 
   set(gridAtom, newGrid);
   set(rowIAtom, Math.min(selectedRowIndex + 1, 5));
@@ -143,4 +144,44 @@ export const deleteBoxValueAtom = atom(null, (get, set) => {
 
   set(gridAtom, newGrid);
   set(columnIAtom, newColumnI);
+});
+
+export const almostLettersAtom = atom((get) => {
+  const grid = get(gridAtom);
+  const resultSet = new Set<string>();
+
+  grid.forEach((row) =>
+    row.forEach((box) => {
+      if (box.correctness === 'almost') resultSet.add(box.value);
+    })
+  );
+
+  return resultSet;
+});
+
+export const correctLettersAtom = atom((get) => {
+  const grid = get(gridAtom);
+  const resultSet = new Set<string>();
+
+  grid.forEach((row) =>
+    row.forEach((box) => {
+      if (box.correctness === 'correct') resultSet.add(box.value);
+    })
+  );
+
+  return resultSet;
+});
+
+export const wrongLettersAtom = atom((get) => {
+  const grid = get(gridAtom);
+  const resultSet = new Set<string>();
+
+  grid.forEach((row) =>
+    row.forEach((box) => {
+      if (box.value.length && box.correctness === 'wrong' && !box.available)
+        resultSet.add(box.value);
+    })
+  );
+
+  return resultSet;
 });

@@ -15,10 +15,10 @@ interface IBoxProps {
   box: IBox;
   isSelected: boolean;
   boxIndex: number;
-  onBoxPressed: (boxIndex: number) => void;
+  onBoxPress: (boxIndex: number) => void;
 }
 
-function Box({ box, isSelected, boxIndex, onBoxPressed }: IBoxProps) {
+function Box({ box, isSelected, boxIndex, onBoxPress }: IBoxProps) {
   const { width: SCREEN_WIDTH } = useWindowDimensions();
   const BOX_WIDTH = SCREEN_WIDTH / 7;
 
@@ -30,7 +30,7 @@ function Box({ box, isSelected, boxIndex, onBoxPressed }: IBoxProps) {
       : COLORS.GRAY;
 
   const handleBoxPress = () => {
-    onBoxPressed(boxIndex);
+    onBoxPress(boxIndex);
   };
 
   return (
@@ -45,7 +45,7 @@ function Box({ box, isSelected, boxIndex, onBoxPressed }: IBoxProps) {
           {
             width: BOX_WIDTH,
           },
-          isSelected && { borderWidth: 5 },
+          isSelected && { borderWidth: 4 },
           !box.available &&
             box.value !== '' && {
               borderWidth: 0,

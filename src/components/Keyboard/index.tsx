@@ -1,57 +1,65 @@
-import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  useWindowDimensions,
-} from 'react-native';
-import { useSetAtom } from 'jotai';
+import React, { useCallback } from 'react';
+import { View, useWindowDimensions } from 'react-native';
+import { useAtomValue, useSetAtom } from 'jotai';
 
 import { styles } from './styles';
+
+import Key from '../Key';
 
 import {
   setBoxValueAtom,
   nextRowAtom,
   deleteBoxValueAtom,
+  almostLettersAtom,
+  correctLettersAtom,
+  wrongLettersAtom,
 } from '../../shared/atoms';
+import type {} from '../../shared/types';
+import { COLORS } from '../../shared/constants';
 
 const KEYS = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-  ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'del'],
-  ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'enter'],
+  ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+  ['enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'del'],
 ];
 
 export default function Keyboard() {
   const setBoxValue = useSetAtom(setBoxValueAtom);
   const nextRow = useSetAtom(nextRowAtom);
   const deleteBoxValue = useSetAtom(deleteBoxValueAtom);
+  const almostLetters = useAtomValue(almostLettersAtom);
+  const correctLetters = useAtomValue(correctLettersAtom);
+  const wrongLetters = useAtomValue(wrongLettersAtom);
 
-  const { width: SCREEN_WIDTH } = useWindowDimensions();
-  const KEY_WIDTH = SCREEN_WIDTH / 14;
-
-  const handleKeyboardPress = (keyPressed: string) => {
-    if (keyPressed === 'enter') {
+  const handleKeyboardPress = useCallback((key: string) => {
+    if (key === 'enter') {
       nextRow();
-    } else if (keyPressed === 'del') {
+    } else if (key === 'del') {
       deleteBoxValue();
     } else {
-      setBoxValue(keyPressed);
+      setBoxValue(key);
     }
-  };
+  }, []);
 
   return (
     <View style={styles.container}>
-      {KEYS.map((keyRow) => (
-        <View key={keyRow.join('')} style={styles.row}>
-          {keyRow.map((key) => (
-            <TouchableOpacity
+      {KEYS.map((row) => (
+        <View key={row.join('')} style={styles.row}>
+          {row.map((key) => (
+            <Key
               key={key}
-              onPress={() => handleKeyboardPress(key)}
-            >
-              <View style={[styles.keyContainer, { minWidth: KEY_WIDTH }]}>
-                <Text style={styles.keyText}>{key}</Text>
-              </View>
-            </TouchableOpacity>
+              value={key}
+              onKeyPress={handleKeyboardPress}
+              color={
+                correctLetters.has(key)
+                  ? COLORS.GREEN
+                  : almostLetters.has(key)
+                  ? COLORS.YELLOW
+                  : wrongLetters.has(key)
+                  ? COLORS.GRAY
+                  : undefined
+              }
+            />
           ))}
         </View>
       ))}
